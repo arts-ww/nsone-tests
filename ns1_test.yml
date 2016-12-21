@@ -1,0 +1,26 @@
+---
+  - hosts: localhost
+    vars:
+      test_zone: getactivelink.com
+    # debug on
+    tasks:
+    ###
+    # validate nsone client lib
+    ###
+
+      - name: client lib
+        command: pip list
+    ###
+    # Testing NS1 Ansible module
+    ###
+      - name: ansible module test
+        local_action:
+          module: ns1_zone
+          apiKey: "{{ key }}"
+          name: "{{ test_zone }}"
+          state: present
+          refresh: 200
+        register: return
+
+      - debug: var=return
+        when: debug is defined
